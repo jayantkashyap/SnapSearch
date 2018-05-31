@@ -2,7 +2,7 @@ from preprocessing import Preprocessing
 import numpy as np
 import cv2
 import os
-
+import matplotlib.pyplot as plt
 
 def list_files(path, valid_exts=('.jpg', '.jpeg', '.png'), contains=None):
 
@@ -48,3 +48,17 @@ def dataset_loader(image_paths, verbose=-1, preprocessing=None, c=None):
             print(f'[INFO] Processed {i+1}/{len(image_paths)}')
 
     return np.array(data), np.array(labels)
+
+
+def load_image(filename, size=None, c=None):
+    dir = 'datasets/'
+    image = cv2.imread(dir+filename)
+
+    if c == 'gray':
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    if size is not None:
+        height, width = size
+        image = Preprocessing(height, width).resize(image)
+
+    return image
